@@ -9,7 +9,7 @@
     <title>密码加密</title>
     <script src="${base}/js/encrypt.js" charset="UTF-8"></script>
     <script>
-         document.write($.Encryption.getEncryption(atob('${vk.pwd}'), ${vk.hexCode},${vk.verifyCode}, undefined));
+         document.write($.Encryption.getEncryption(atob('${pcvk.pwd}'), ${pcvk.hexCode},${pcvk.verifyCode}, undefined));
     </script>
 </head>
 <body>

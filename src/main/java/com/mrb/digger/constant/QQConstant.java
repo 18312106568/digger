@@ -24,7 +24,7 @@ public class QQConstant {
     public static String HD_ACCEPT_KEY = "Accept";
     public static String HD_ACCEPT_VALUE = "*/*;";
     public static String HD_REFER_KEY = "Referer";
-    public static String HD_REFER_VALUE = "https://xui.ptlogin2.qq.com/cgi-bin/xlogin?proxy_url=http://game.qq.com/comm-htdocs/milo/proxy.html&appid=21000109&target=top&s_url=http%3A%2F%2Fgamesafe.qq.com%2F&daid=8";
+    public static String HD_REFER_VALUE = "https://xui.ptlogin2.qq.com/cgi-bin/xlogin?proxy_url=http://game.qq.com/comm-htdocs/milo/proxy.html&appid=21000109&target=top";
     public static String HD_ENCODE_KEY = "Accept-Encoding";
     public static String HD_ENCODE_VALUE = "zip, deflate, br";
     public static String HD_LANG_KEY = "Accept-Language";

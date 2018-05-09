@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.mrb.digger.LoanTest
 -------------------------------------------------------------------------------
-Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 11.415 sec - in com.mrb.digger.LoanTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 8.448 sec - in com.mrb.digger.LoanTest

@@ -13,6 +13,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.Method;
 import java.math.BigInteger;  
+import java.util.List;
   
 import javax.crypto.Cipher;  
 import javax.crypto.KeyGenerator;  
@@ -67,7 +68,10 @@ public class TestDecode {
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
-     
+        Double d = Double.parseDouble("8.64E7");
+        Class clazz =  List.class;
+        
+        System.out.println(d.longValue());
     }  
       
     /** 

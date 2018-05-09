@@ -89,16 +89,17 @@ public class TestCookie {
               .addHeader("Accept-Language", "zh-CN,zh;q=0.9")
               .addHeader("Cache-Control", "max-age=0")
               .addHeader("Connection", "keep-alive")
-              .addHeader("Cookie", "eas_sid=E1x5j250c048U224M8L1g259P1; pac_uid=0_59954353aa931;pt2gguin=o3602158526; ts_uid=8285669824;ptvfsession=00ea502038cf90d68b9185208ae79c93a8e98982fffc96681addb78cbe174bc2d89ee4391e3e64654f2c601c9272dff0d928b033e1375681; superuin=o3602158526; ptnick_3602158526=e5b08fe7a096e5a4b4; pt_recent_uins=226b9ff95f3195659db339f2ff4dca877338fadd1195648abf45936992e947e1f8b5c43e6f6d2bfada7409da82ca7fd391582b3875451fd9;  ied_rf=www.baidu.com/link; ETK=; skey=@NOvvTISe2; pgv_info=pgvReferrer; _ga=GA1.2.199907167.1524067202; ptdrvs=bpAk5NgWcL5HcBKcNjPnPQal-Kk-zTPc-zCB7TQVON8_; RK=eU+qjsz/aP; ptisp=ctc;HttpOnly=; pgv_pvid=3025145152; ptvfsession=8eb8fa79af75ae86d9984befd6e5a9cfefaf5441cdd984bcb040b2b499a960cd5ba245e4ba510742763527185da738000642de86bc8354a3;Path=/;ptisp=ctc;o_cookie=3602158526; tvfe_boss_uuid=dc72a0023dfc59dd; uin=o3602158526;pgv_pvi=1345968128; ptcz=;confirmuin=0; supertoken=1627967958; ts_refer=aq.qq.com/cn2/unionverify/pc/pc_uv_show;ptui_loginuin=3602158526; superkey=mYhlJ3WxK8GyoGMDg175tajE*-Qb8vEQ2JZtp26T4ts_;Expires=Thu 01 Jan 1970 00:00:00 GMT;Domain=ptlogin2.qq.com;ptdrvs=-0PfDETnSWwFoCfjOH9ZuEcBxzJA1yBIxGTis*LWLN0_;")
+              .addHeader("Cookie", "  eas_sid=E1x5j250c048U224M8L1g259P1; pac_uid=0_59954353aa931;pt2gguin=o3602158526; ts_uid=8285669824; superuin=o3602158526; ptnick_3602158526=e5b08fe7a096e5a4b4; pt_recent_uins=552d69bc3d903879bf340ab0517b5f90e215ac7985e4c626e89981f722958d0b0d21706fec1ccccad816e1014f2179ae90ea714adbd522ce;  ied_rf=www.baidu.com/link; ETK=; skey=@Rvryh7ehp; pgv_info=pgvReferrer; _ga=GA1.2.199907167.1524067202; ptdrvs=yQQAcsYJW1TOYWCwFivcZb98-hei7QbGquk0khOypiE_; RK=eU+qjsz/aP; ptisp=ctc;HttpOnly=; pgv_pvid=3025145152; ptvfsession=7f3ef078014769353d20031d8c5fcfda8816cd655c7ab16eeb9d868a011f68b296b4966eda6bc9f1ccb1c592d77da8b70b1698521f3c5f3d;Path=/;o_cookie=3602158526; tvfe_boss_uuid=dc72a0023dfc59dd; uin=o3602158526;pgv_pvi=1345968128; ptcz=;confirmuin=0; supertoken=3870176117; ts_refer=aq.qq.com/cn2/unionverify/pc/pc_uv_show;ptui_loginuin=3602158526; superkey=mYJ0wwuKSh*uQtGW8Saj8Txf1Bz3ESoxEzWuet4A0vM_;Expires=Thu 01 Jan 1970 00:00:00 GMT;Domain=ptlogin2.qq.com;")
               .addHeader("Host", "gamesafe.qq.com")
               .addHeader("If-None-Match", "025239ac14b4fa2b48a435e04d620767cea4af9c")
               .addHeader("Upgrade-Insecure-Requests", "1") 
               .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36")      
               .build();
             Response response = client.newCall(request).execute();
-            BaseResult baseResult = gson.fromJson(response.body().string(), BaseResult.class);
-            System.out.println("返回结果："+ baseResult.getData().toString());
-            System.out.println(  gson.fromJson(baseResult.getData().get(0).toString()  , CrackVo.class));
+           
+           BaseResult baseResult = gson.fromJson(response.body().string(), BaseResult.class);
+           System.out.println("返回结果："+ baseResult.getData());
+           // System.out.println(  gson.fromJson(baseResult.getData().get(0).toString()  , CrackVo.class));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -117,6 +118,9 @@ public class TestCookie {
         }
         System.out.println("5S22EjF3fvgzDQDn0a6qvHT8QxJl4*QHo*EqmvqDrtBWXFZVnrKVX*IRUMeNfgT1".length());
     }
+    
+    
+    
     
     
 }

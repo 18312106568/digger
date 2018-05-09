@@ -54,21 +54,6 @@
             <version>3.10.0</version>
             <type>jar</type>
         </dependency>
-        <dependency>
-            <groupId>net.sourceforge</groupId>
-            <artifactId>jpcap</artifactId>
-            <version>0.01.16</version>
-        </dependency>
-        <dependency>
-            <groupId>net.sourceforge</groupId>
-            <artifactId>dev-classes_net.ultrametrics</artifactId>
-            <version>0.03</version>
-        </dependency>
-        <dependency>
-            <groupId>net.sourceforge</groupId>
-            <artifactId>fooware_CommandLine</artifactId>
-            <version>1.0</version>
-        </dependency>
         <dependency>  
             <groupId>org.springframework.boot</groupId>  
             <artifactId>spring-boot-starter-freemarker</artifactId>  

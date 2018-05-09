@@ -2,17 +2,20 @@ package com.mrb.digger;
 
 
 import com.mrb.digger.constant.QQConstant;
+import com.mrb.digger.entity.QQLogin;
 import com.mrb.digger.model.PtuiCheckVK;
 import com.mrb.digger.repository.QQLoginRepository;
 import com.mrb.digger.service.LoginService;
 import com.mrb.digger.utils.LoginUtil;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Pattern;
 import org.junit.Test;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import java.util.Arrays;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class LoanTest extends UnitTestApplicationTests {
@@ -25,17 +28,73 @@ public class LoanTest extends UnitTestApplicationTests {
     
     @Test
     public void testQQLogin(){
-        System.out.println(String.format(QQConstant.QQ_LOGIN_URL, "3250537630","123abc123abc"));
-        System.out.println(loginRepository.findQQLoginByUin("3250537630"));
+        System.out.println(String.format(QQConstant.QQ_LOGIN_URL, "3602158526","123abc123abc"));
+        System.out.println(loginRepository.findQQLoginByUin("3602158526"));
     }
     
     @Test
-    public void testPtuiCheckVK(){
+    public void testLogin(){
         String qq = "3602158526";
         String loginSig =  LoginUtil.getLoginSig();
         PtuiCheckVK vk = loginService.isSafeLogin(qq,loginSig);
         System.out.println(vk);
         loginService.tryLogin(qq, loginSig, vk);
+    }
+    
+    @Test
+    public void testSaveQQLogin(){
+        String qq = "3602158526";
+        String password ="MTIzYWJjMTIzYWJj";
+        loginService.save(qq, password);
+    }
+    
+    @Test
+    public void testBatchSave(){
+        String filePath = "D:\\tmp\\TP\\QQ.txt";
+        File file = new File(filePath);
+        loginService.batchSave(LoginUtil.getQQLoginMap(file));
+    }
+    
+    @Test
+    public void listQQLogin(){
+        List<String> uinList = new ArrayList<>();
+        uinList.add("3250537630");
+        uinList.add("3602158526");
+        List<QQLogin> loginList = loginRepository.listAllByUins(uinList);
+        System.out.println(loginList.size());
+    }
+    
+    @Test
+    public void testFile() throws FileNotFoundException, IOException{
+        Pattern pattern = Pattern.compile("[0-9]{9,10}-");
+        final String PATTERN = "[0-9]{9,10}\\-[a-zA-Z0-9\\+\\/\\=]*";
+        String filePath = "D:\\tmp\\TP\\QQ.txt";
+        File file = new File(filePath);
+        FileReader reader = new FileReader(file);
+        StringBuilder sb = new StringBuilder();
+        char[] buf = new char[2048];
+        int count = 0;
+        int sum = 0;
+        while ((sum=reader.read(buf))!=-1) {
+            count += sum;
+            sb.append(new String(buf));
+             buf = new char[2048];
+        }
+        String uins = sb.toString().trim();
+        String[] uinArr = uins.split("\r\n");
+        for(String uin : uinArr){
+             //System.out.println(uin);
+            if (pattern.matcher(uin).matches()) {
+                System.out.println(uin);
+            }
+            if(Pattern.matches(PATTERN, uin)){
+                System.out.println(uin);
+            }
+        }
+//        System.out.println(sb.toString());
+//        System.out.println(sb.toString().replaceAll("\r\n","").length());
+//        System.out.println(count);
+        
     }
     
 /*

@@ -6,6 +6,7 @@
 package com.mrb.digger.service;
 
 import com.mrb.digger.model.PtuiCheckVK;
+import java.util.Map;
 
 /**
  *
@@ -16,4 +17,8 @@ public interface LoginService {
     PtuiCheckVK isSafeLogin(String qq,String loginSig);
     
     Boolean tryLogin(String qq,String loginSig ,PtuiCheckVK vK);
+    
+    void save(String uin,String password);
+    
+    void batchSave(Map<String,String> map);
 }

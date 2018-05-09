@@ -5,12 +5,17 @@
  */
 package com.mrb.digger.utils;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.mrb.digger.model.emun.BasicType;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.util.StringUtils;
 
 /**
@@ -151,5 +156,104 @@ public class ConverUtil {
         }
         return sb.toString();
     }
+    
+    /**
+     * json转为map
+     * @param crackJson
+     * @return 
+     * @throws java.io.IOException 
+     */
+     public static Map<String,String> converJsonToMap(String crackJson)throws IOException{
+        char[] crackArr = crackJson.toCharArray();
+        Map<String,String> map = new HashMap();
+        StringBuilder sb = new StringBuilder();
+        crackArr[crackJson.length()-1] = ',';
+        int signNum = 0;
+        boolean flag = true;
+        String key ="";
+        String value ="";
+        for(int i=1;i<crackArr.length;i++){
+            if(flag){
+                if(crackArr[i]=='='){
+                    flag =false;
+                    key =sb.toString().trim();
+                    sb = new StringBuilder();
+                }else{
+                    sb.append(crackArr[i]);
+                    continue;
+                }
+            }else{
+                if(crackArr[i]==','&&signNum==0){
+                    flag = true;
+                    value = "null".equals(sb.toString().trim())?null:sb.toString().trim();
+                    sb = new StringBuilder();
+                }else if(crackArr[i]=='{'){
+                    sb.append(crackArr[i]);
+                    signNum++;
+                    continue;
+                }else if(crackArr[i]=='}'){
+                    sb.append(crackArr[i]);
+                    signNum--;
+                    continue;
+                }else{
+                    sb.append(crackArr[i]);
+                    continue;
+                }
+                map.put(key, value);
+            }
+        }
+        if(signNum!=0||!flag){
+            throw new IOException("error format json");
+        }
+        map.put(key, value);
+        return map;
+    }
+     
+     /**
+      * map转化为clazz<T>
+      * @param <T>
+      * @param clazz
+      * @param map
+      * @return 
+      */
+     public static <T>T converMapToClass(Class<T> clazz,Map<String,String> map){
+         T instance = null;
+        try {
+            instance = clazz.newInstance();
+            Field[] fieldArr = clazz.getDeclaredFields();
+            for(Field field : fieldArr){
+                JsonProperty ann = field.getAnnotation(JsonProperty.class);
+                if(ann==null){
+                    continue;
+                }
+                String value = map.get(ann.value());
+                int type = BasicType.isBasicType(field.getType());
+                Method method = clazz.getDeclaredMethod(toSetName(field.getName()), field.getType());
+                if(type>0&&type<=8){
+                   switch(type){
+                       case 1: method.invoke(instance,Boolean.parseBoolean(value)); break;
+                       case 2: method.invoke(instance,Short.parseShort(value)); break;
+                       case 3: method.invoke(instance,Integer.parseInt(value)); break;
+                       case 4: method.invoke(instance,Long.parseLong(value)); break;
+                       case 5 :method.invoke(instance,Float.parseFloat(value)); break;
+                       case 6: method.invoke(instance, Double.parseDouble(value)); break;
+                       case 7: method.invoke(instance, (Object) null); break;
+                       case 8: method.invoke(instance,Byte.parseByte(value)); break;
+                       case 9: method.invoke(instance,new Date(Long.parseLong(value))); break;
+                       case 10:method.invoke(instance,value); break;
+                   }
+                }else if(type>=11&&type<=13){
+                
+                }else{
+                    method.invoke(instance,converMapToClass(field.getType(),converJsonToMap(value)));
+                }
+                
+            }
+        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | SecurityException | IllegalArgumentException | InvocationTargetException | IOException ex) {
+            Logger.getLogger(ConverUtil.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         return instance;
+     }
+    
 
 }

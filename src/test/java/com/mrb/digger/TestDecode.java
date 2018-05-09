@@ -6,7 +6,14 @@
 package com.mrb.digger;
 
 
+import com.mrb.digger.controller.EncryptController;
+import com.mrb.digger.entity.QQLogin;
+import com.mrb.digger.model.PtuiCheckVK;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.AnnotatedType;
+import java.lang.reflect.Method;
 import java.math.BigInteger;  
+import java.util.List;
   
 import javax.crypto.Cipher;  
 import javax.crypto.KeyGenerator;  
@@ -61,7 +68,10 @@ public class TestDecode {
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
-     
+        Double d = Double.parseDouble("8.64E7");
+        Class clazz =  List.class;
+        
+        System.out.println(d.longValue());
     }  
       
     /** 
@@ -197,5 +207,23 @@ public class TestDecode {
     public void testRegex(){
         System.out.println("1[2]3,".replaceAll("[12\\[\\],]", ""));
     }
+    
+    @Test
+    public void testAnnotation(){
+        Class clazz = QQLogin.class;
+        //Annotation[] annotations = clazz.getAnnotations();
+        Annotation[] annotations = clazz.getDeclaredAnnotations();
+        System.out.println(annotations.length);
+        for(Annotation annotation : annotations){
+            System.out.println("注解名"+annotation.toString());
+            System.out.println(annotation.annotationType());
+        }
+        Method[] methods = clazz.getMethods();
+        for(Method method : methods) {
+        	System.out.println(method.getName());
+        }
+    }
+    
+    
     
 }

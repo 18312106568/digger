@@ -89,16 +89,17 @@ public class TestCookie {
               .addHeader("Accept-Language", "zh-CN,zh;q=0.9")
               .addHeader("Cache-Control", "max-age=0")
               .addHeader("Connection", "keep-alive")
-              .addHeader("Cookie", "pgv_pvi=40127488; RK=lc+qzOzvOv; ptcz=b784c3ba5b812d3750bda9369caaf38f753796fd1643ae81d55789b486332123; eas_sid=n115y1Z2e5Z4M3v9N8w5D571p3; pgv_pvid=8111045596; pac_uid=1_315077558; pgv_pvid_new=315077558_ecb5b9d079; luin=o0315077558; lskey=000100001055f4b747a362dad398eb26a3b13f68ac7f08b08fb43d02ff80c1c2b109549fdf582158e92e1dd7; rankv=2018020217; _ga=GA1.2.44742193.1524103725; _gid=GA1.2.1847172698.1524103725; pgv_si=s1540252672; _qpsvr_localtk=0.3938258769202392; confirmuin=0; ptisp=ctc; ptnick_3602158526=e5b08fe7a096e5a4b4; ptnick_315077558=4d5242; ETK=; ptnick_3096235163=33303936323335313633; ptnick_2073310240=e5b08fe7a096e5a4b435; ptnick_3393947095=e5b08fe7a096e5a4b437; ptnick_2444618204=e5b08fe7a096e5a4b434; pgv_info=ssid=s502279952&pgvReferrer=; ptnick_3414660853=e5b08fe7a096e5a4b433; ptnick_2627915209=e5b08fe7a096e5a4b431; ptnick_3222815597=e5b08fe7a096e5a4b43131; ptnick_3509163357=e5b08fe7a096e5a4b432; ptnick_3446440468=e5b08fe7a096e5a4b438; ptnick_3487880669=e5b08fe7a096e5a4b439; pt_login_sig=fiEY7xr1TsFcuak-UL4WQlRqbkD6ruh4dch6onjyUh5w0-alQ4xXzxP4i26VUDlo; pt_clientip=2bd3716cbcf2fcb6; pt_serverip=ea5a0ab91aad905c; pt_local_token=1903918491; uikey=33504cb9688940bb2b6f0827b8cdb1c6a4e699c175535a74a14fed998490962e; ptui_loginuin=3602158526; pt2gguin=o3602158526; uin=o3602158526; superuin=o3602158526; o_cookie=3602158526; verifysession=h01e60b43e4e74cd83e270a3e912e3be7a479908a6aaf5515600a57dca11da03ff287fc371037b414ce; ptdrvs=bMLOAH8q5wDpscjjtJTrv-vHzt7aGDdhuQvuZ6sIdow_; ptvfsession=d2cd6a599031c7ba717317331ecfcccb1db7766e80ccae7054fb0385ccf69b8da5ce079c05271d35f2de69ab11a20879d6b407f64dcdb053; dlock=8_1524213828_1_; dev_mid_sig=adf977c23bf4cf9ac0f68f6445f947ed109bb3507f98f5054d7d552d64c10e1effd9e82a3d810016; qrsig=29xidBcurA3ZgECqB1FT*H3vYU1jhnTBE6DlLJ5ZTGAV9Jls*xXbreyxH74A7GnJ; skey=@EafjEaw11; supertoken=287475000; superkey=stuUdJoqzs8rptaxjtnwvPo1OgxLK2PxCcBb5CTgUX4_; pt_recent_uins=d4f147d0705e96bc800e97cf963b929850e561ddfffab6124c0f527bfd3ca8796dfbfaacfd49cc49f2d18c754bb6631384458ae1ab184026; pt_guid_sig=d6bfd85b74daed0c0da1dfcdbfd7e1292c20d00318b0d37bf98fb3486d285f23; IED_LOG_INFO2=userUin%3D3602158526%26nickName%3D%2525E5%2525B0%25258F%2525E7%2525A0%252596%2525E5%2525A4%2525B4%26userLoginTime%3D1524213835")
+              .addHeader("Cookie", "eas_sid=E1x5j250c048U224M8L1g259P1; pac_uid=0_59954353aa931;pt2gguin=o3602158526; ts_uid=8285669824; superuin=o3602158526; ptnick_3602158526=e5b08fe7a096e5a4b4; pt_recent_uins=2cac7802d37c33ed9bd43a82d7621efe7a1e4016bdfaf4d03b8b0b5a30dd28a28956ddb277b475487abf0d2792e9e3882a03b29a047b7171;  ied_rf=www.baidu.com/link; ETK=; skey=@fMu56XMEQ; pgv_info=pgvReferrer; _ga=GA1.2.199907167.1524067202; ptdrvs=pf2eciF-kVAFZ6NfZf-wOxb-Mi1r0fkKTrcYILblalA_; RK=eU+qjsz/aP; ptisp=ctc;HttpOnly=; pgv_pvid=3025145152; ptvfsession=1c56931e7ccda4bc08149bd4426438ae7d3744306246196e3183fd7e029c6a87def2d32f93e99665103938619548c25e2d09d860237b8419;Path=/;o_cookie=3602158526; tvfe_boss_uuid=dc72a0023dfc59dd; uin=o3602158526;pgv_pvi=1345968128; ptcz=;confirmuin=0; supertoken=2570945179; ts_refer=aq.qq.com/cn2/unionverify/pc/pc_uv_show;ptui_loginuin=3602158526; superkey=E*u*6FD4YAyTV2QFRccuxH9bxHcmdMQ*Jemi*y22C0Q_;Expires=Thu 01 Jan 1970 00:00:00 GMT;Domain=ptlogin2.qq.com;")
               .addHeader("Host", "gamesafe.qq.com")
               .addHeader("If-None-Match", "025239ac14b4fa2b48a435e04d620767cea4af9c")
               .addHeader("Upgrade-Insecure-Requests", "1") 
               .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36")      
               .build();
             Response response = client.newCall(request).execute();
-            BaseResult baseResult = gson.fromJson(response.body().string(), BaseResult.class);
-            System.out.println("返回结果："+ baseResult.getData().toString());
-            System.out.println(  gson.fromJson(baseResult.getData().get(0).toString()  , CrackVo.class));
+           
+           BaseResult baseResult = gson.fromJson(response.body().string(), BaseResult.class);
+           System.out.println("返回结果："+ baseResult.getData());
+           // System.out.println(  gson.fromJson(baseResult.getData().get(0).toString()  , CrackVo.class));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -117,6 +118,58 @@ public class TestCookie {
         }
         System.out.println("5S22EjF3fvgzDQDn0a6qvHT8QxJl4*QHo*EqmvqDrtBWXFZVnrKVX*IRUMeNfgT1".length());
     }
+    
+    @Test
+    public void converJsonToMap(){
+        //{appeal_time=null, appeal_state=1.0, zone=全区, extend={rank=1.0}, reduce_state=1.0, reason=游戏作弊, start_stmp=1.523024851E9, game_name=地下城与勇士, free_state=1.0, duration=8.64E7, game_id=5.0, type=封号, reduced=0.0, reduce_percent=0.0}
+        String crackJson = "{appeal_time=null, appeal_state=1.0, zone=全区, extend={rank=1.0}, reduce_state=1.0, reason=游戏作弊, start_stmp=1.523024851E9, game_name=地下城与勇士, free_state=1.0, duration=8.64E7, game_id=5.0, type=封号, reduced=0.0, reduce_percent=0.0}";
+        char[] crackArr = crackJson.toCharArray();
+        crackArr[crackJson.length()-1] = ',';
+        Map<String,String> map = new HashMap();
+        StringBuilder sb = new StringBuilder();
+        int signNum = 0;
+        boolean flag = true;
+        String key ="";
+        String value ="";
+        for(int i=1;i<crackArr.length;i++){
+            if(flag){
+                if(crackArr[i]=='='){
+                    flag =false;
+                    key =sb.toString().trim();
+                    sb = new StringBuilder();
+                }else{
+                    sb.append(crackArr[i]);
+                    continue;
+                }
+            }else{
+                if(crackArr[i]==','&&signNum==0){
+                    flag = true;
+                    value = sb.toString().trim();
+                    sb = new StringBuilder();
+                }else if(crackArr[i]=='{'){
+                    sb.append(crackArr[i]);
+                    signNum++;
+                    continue;
+                }else if(crackArr[i]=='}'){
+                    sb.append(crackArr[i]);
+                    signNum--;
+                    continue;
+                }else{
+                    sb.append(crackArr[i]);
+                    continue;
+                }
+                map.put(key, value);
+            }
+        }
+        System.out.println(signNum);
+        System.out.println(flag);
+        for(Map.Entry<String,String> entry : map.entrySet()){
+            System.out.println(entry.getKey()+"===>"+entry.getValue());
+        }
+        
+    }
+    
+    
     
     
 }

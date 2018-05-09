@@ -13,7 +13,9 @@ import com.mrb.digger.service.LoginService;
 import com.mrb.digger.utils.ConverUtil;
 import com.mrb.digger.utils.LoginUtil;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import okhttp3.OkHttpClient;
@@ -142,5 +144,42 @@ public class LoginServiceImpl implements LoginService{
         }
         return false;
     }
+
+    @Override
+    public void save(String uin, String password) {
+        QQLogin qqLogin = loginRepository.findQQLoginByUin(uin);
+        if(qqLogin==null){
+            qqLogin = new QQLogin();
+        }
+        qqLogin.setUin(uin);
+        qqLogin.setPassword(password);
+        qqLogin.setCookies(QQConstant.COOKIES);
+        qqLogin.setCreateDate(new Date());
+        qqLogin.setUpdateDate(new Date());
+        loginRepository.save(qqLogin);
+    }
     
+    @Override
+    public void batchSave(Map<String,String> map){
+        logger.info("==========》批量写入存储QQ账号：{}",map.size());
+        List<QQLogin> loginList = new ArrayList<>();
+        List<QQLogin> updateList = loginRepository.listAllByUins(map.keySet());
+        Map<String,QQLogin> updateMap = new HashMap<>();
+        for(QQLogin login : updateList){
+            updateMap.put(login.getUin(), login);
+        }
+        for(Map.Entry<String,String> entry :map.entrySet()){
+            QQLogin qqLogin = updateMap.get(entry.getKey());
+            if(qqLogin==null){
+                qqLogin = new QQLogin();
+            }
+            qqLogin.setUin(entry.getKey());
+            qqLogin.setPassword(entry.getValue());
+            qqLogin.setCookies(QQConstant.COOKIES);
+            qqLogin.setCreateDate(new Date());
+            qqLogin.setUpdateDate(new Date());
+            loginList.add(qqLogin);
+        }
+        loginRepository.save(loginList);
+    }
 }

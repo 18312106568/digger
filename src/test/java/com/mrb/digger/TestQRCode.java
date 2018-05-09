@@ -5,6 +5,7 @@
  */
 package com.mrb.digger;
 
+import com.mrb.digger.vo.CrackVo;
 import org.junit.Test;
 import java.io.File;
 import java.util.Base64;
@@ -62,4 +63,11 @@ public class TestQRCode {
     public void testDecode(){
         System.out.println(new String(Base64.getEncoder().encode("123abc123abc".getBytes())));
     }
+    
+    @Test
+    public void testChangeJson(){
+       
+    }
+    
+    
 }

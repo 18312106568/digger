@@ -14,13 +14,20 @@ import java.util.Date;
 public enum BasicType {
     
     B(1,Boolean.class),
+    b(1,boolean.class),
     S(2,Short.class),
+    s(2,short.class),
     I(3,Integer.class),
+    i(3,int.class),
     L(4,Long.class),
+    l(4,long.class),
     F(5,Float.class),
+    f(5,float.class),
     D(6,Double.class),
+    d(6,double.class),
     V(7,Void.class),
     BYTE(8,Byte.class),
+    by(8,byte.class),
     DATE(9,Date.class),
     STRING(10,String.class),
     LIST(11,java.util.List.class),
@@ -52,7 +59,7 @@ public enum BasicType {
         
     }
     
-    public static int isBasicType(Class clazz){
+    public static int getBasicType(Class clazz){
         BasicType[] basics = BasicType.values();
         for(BasicType basic : basics){
             if(basic.type.equals(clazz)){

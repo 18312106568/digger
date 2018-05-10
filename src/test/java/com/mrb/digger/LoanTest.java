@@ -18,7 +18,7 @@ import org.junit.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class LoanTest extends UnitTestApplicationTests {
+public class LoanTest extends DiggerApplicationTests {
     
     @Autowired
     QQLoginRepository loginRepository;

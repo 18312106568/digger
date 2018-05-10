@@ -9,8 +9,10 @@ package com.mrb.digger;
 import com.mrb.digger.controller.EncryptController;
 import com.mrb.digger.entity.QQLogin;
 import com.mrb.digger.model.PtuiCheckVK;
+import com.mrb.digger.vo.CrackVo;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedType;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.math.BigInteger;  
 import java.util.List;
@@ -222,6 +224,15 @@ public class TestDecode {
         for(Method method : methods) {
         	System.out.println(method.getName());
         }
+    }
+    
+    @Test
+    public void testFieldType(){
+        Class clazz = CrackVo.class;
+        for(Field field : clazz.getDeclaredFields()){
+            System.out.println(field.getType());
+        }
+    
     }
     
     

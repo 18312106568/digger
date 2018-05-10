@@ -20,41 +20,41 @@ public class CrackVo implements Serializable{
     private String appealTime;
     
     @JsonProperty("appeal_state")
-    private int appealState;
+    private Double appealState;
     
     @JsonProperty("zone")
     private String zone;
     
     @JsonProperty("extend")
-    private Object extend;
+    private String extend;
     
     @JsonProperty("reduce_state")
-    private Float reduceState;
+    private Double reduceState;
     
     @JsonProperty("reduce_state")
     private String reason;
     
     @JsonProperty("start_stmp")
-    private Float startStmp;
+    private Double startStmp;
     
     @JsonProperty("game_name")
     private String gameName;
     
     @JsonProperty("free_state")
-    private int freeState;
+    private Double freeState;
     
     @JsonProperty("free_state")
-    private int duration;
+    private Double duration;
     
     @JsonProperty("game_id")
-    private int gameId;
+    private Double gameId;
     
     @JsonProperty("type")
     private String type;
     
     @JsonProperty("reduced")
-    private int reduced;
+    private double reduced;
     
     @JsonProperty("reduce_percent")
-    private int reducePercent;
+    private Double reducePercent;
 }

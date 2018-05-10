@@ -6,6 +6,7 @@
 package com.mrb.digger;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.mrb.digger.utils.ConverUtil;
 import com.mrb.digger.vo.BaseResult;
@@ -13,6 +14,7 @@ import com.mrb.digger.vo.CrackVo;
 import org.junit.Test;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import okhttp3.OkHttpClient;
@@ -169,7 +171,18 @@ public class TestCookie {
         
     }
     
-    
+    @Test
+    public void testConverJsonToClass() throws IOException{
+        long start = System.currentTimeMillis();
+        String crackJson = "{appeal_time=null, appeal_state=1.0, zone=全区, extend={rank=1.0}, reduce_state=1.0, reason=游戏作弊, start_stmp=1.523024851E9, game_name=地下城与勇士, free_state=1.0, duration=8.64E7, game_id=5.0, type=封号, reduced=0.0, reduce_percent=0.0}";
+        CrackVo vo = ConverUtil.converJsonToClass(CrackVo.class, crackJson);
+        long mid = System.currentTimeMillis();
+        vo = new ObjectMapper().readValue(crackJson.getBytes(), CrackVo.class);
+        long end = System.currentTimeMillis();
+        System.out.println(mid - start);
+        System.out.println(end - mid);
+        System.out.println(vo);
+    }
     
     
 }

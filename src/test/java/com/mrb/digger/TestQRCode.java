@@ -5,13 +5,11 @@
  */
 package com.mrb.digger;
 
-import com.mrb.digger.vo.CrackVo;
 import org.junit.Test;
-import java.io.File;
 import java.util.Base64;
 import java.util.Date;
-import java.util.Hashtable;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -66,6 +64,9 @@ public class TestQRCode {
     
     @Test
     public void testChangeJson(){
+       String DATE_PATTERN =".*T.*";
+       String date1 = "20180201";
+       System.out.println(Pattern.matches(DATE_PATTERN, date1));
        
     }
     

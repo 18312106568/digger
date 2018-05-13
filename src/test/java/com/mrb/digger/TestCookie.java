@@ -6,7 +6,9 @@
 package com.mrb.digger;
 
 
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.google.gson.Gson;
 import com.mrb.digger.utils.ConverUtil;
 import com.mrb.digger.vo.BaseResult;
@@ -15,6 +17,7 @@ import org.junit.Test;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Map;
 import okhttp3.OkHttpClient;
@@ -173,15 +176,61 @@ public class TestCookie {
     
     @Test
     public void testConverJsonToClass() throws IOException{
-        long start = System.currentTimeMillis();
+        Gson gson = new Gson();
+        ObjectMapper mapper = new ObjectMapper();  
+       
         String crackJson = "{appeal_time=null, appeal_state=1.0, zone=全区, extend={rank=1.0}, reduce_state=1.0, reason=游戏作弊, start_stmp=1.523024851E9, game_name=地下城与勇士, free_state=1.0, duration=8.64E7, game_id=5.0, type=封号, reduced=0.0, reduce_percent=0.0}";
-        CrackVo vo = ConverUtil.converJsonToClass(CrackVo.class, crackJson);
+        String json = "{\"appeal_state\":1.0,\"zone\":\"全区\",\"extend\":\"{rank\\u003d1.0}\",\"reduce_state\":1.0,\"reason\":\"游戏作弊\",\"start_stmp\":1.523024851E9,\"game_name\":\"地下城与勇士\",\"free_state\":1.0,\"duration\":1.0,\"game_id\":5.0,\"type\":\"封号\",\"reduced\":0.0,\"reduce_percent\":0.0}";
+        CrackVo vo = null;
+        long start = System.currentTimeMillis();
+        for(int i=0;i<1000000;i++){
+           // vo = ConverUtil.converJsonToClass(CrackVo.class, crackJson);
+            vo = gson.fromJson(json, CrackVo.class);
+            vo = mapper.readValue(json, CrackVo.class);
+            
+        }
         long mid = System.currentTimeMillis();
-        vo = new ObjectMapper().readValue(crackJson.getBytes(), CrackVo.class);
+        for(int i=0;i<1000000;i++){
+            vo = ConverUtil.converJsonToClass(CrackVo.class, crackJson);
+            //vo = gson.fromJson(json, CrackVo.class);
+        }
+        StringReader reader = new StringReader(json);
+        
         long end = System.currentTimeMillis();
         System.out.println(mid - start);
         System.out.println(end - mid);
         System.out.println(vo);
+    }
+    
+    @Test
+    public void testNewString(){
+        String json = "1234567890";
+        char[] jsonArr =json.toCharArray();
+        StringBuilder sb = new StringBuilder();
+        long start = System.currentTimeMillis();
+        for(int i=0;i<100000000;i++){
+            for(int j=0;j<3;j++){
+                sb.append(jsonArr[j]);
+            }
+            sb = new StringBuilder();
+        }
+        long mid = System.currentTimeMillis();
+        for(int i=0;i<100000000;i++){
+            new String(jsonArr,0,3);
+        }
+        long end = System.currentTimeMillis();
+        System.out.println(mid-start);
+        System.out.println(end-mid);
+    }
+    
+    /**
+     * 学习json底层实现原理
+     */
+    @Test
+    public void testObjectMapper(){
+        TypeFactory typeFactory = TypeFactory.defaultInstance();
+        JavaType javaType = typeFactory.constructType(CrackVo.class);
+        JavaType javaType2 = typeFactory.constructType(CrackVo.class);
     }
     
     

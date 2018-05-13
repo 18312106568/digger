@@ -222,7 +222,7 @@ public class TestDecode {
         }
         Method[] methods = clazz.getMethods();
         for(Method method : methods) {
-        	System.out.println(method.getName());
+            System.out.println(method.getName());
         }
     }
     

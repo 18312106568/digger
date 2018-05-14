@@ -173,11 +173,22 @@ public class TestCookie {
     
     @Test
     public void testConverJsonToClass() throws IOException{
-        long start = System.currentTimeMillis();
+        Gson gson = new Gson();
+        ObjectMapper mapper = new ObjectMapper();
         String crackJson = "{appeal_time=null, appeal_state=1.0, zone=全区, extend={rank=1.0}, reduce_state=1.0, reason=游戏作弊, start_stmp=1.523024851E9, game_name=地下城与勇士, free_state=1.0, duration=8.64E7, game_id=5.0, type=封号, reduced=0.0, reduce_percent=0.0}";
-        CrackVo vo = ConverUtil.converJsonToClass(CrackVo.class, crackJson);
+        String crackJson2 = "{\"appealState\":1.0,\"zone\":\"全区\",\"extend\":\"{rank\\u003d1.0}\",\"reduceState\":1.0,\"reason\":\"1.0\",\"startStmp\":1.523024851E9,\"gameName\":\"地下城与勇士\",\"freeState\":1.0,\"duration\":1.0,\"gameId\":5.0,\"type\":\"封号\",\"reduced\":0.0,\"reducePercent\":0.0}";
+        long start = System.currentTimeMillis();
+        CrackVo vo =null;
+         for (int i =0;i<1;i++) {
+             vo = ConverUtil.converJsonToClass(CrackVo.class, crackJson);
+              //vo = gson.fromJson(crackJson2, CrackVo.class);
+              mapper.readValue(crackJson2, CrackVo.class);
+        }
         long mid = System.currentTimeMillis();
-        vo = new ObjectMapper().readValue(crackJson.getBytes(), CrackVo.class);
+        for (int i =0;i<1000000;i++) {
+             //vo = ConverUtil.converJsonToClass(CrackVo.class, crackJson);
+              vo = gson.fromJson(crackJson2, CrackVo.class);
+        }
         long end = System.currentTimeMillis();
         System.out.println(mid - start);
         System.out.println(end - mid);

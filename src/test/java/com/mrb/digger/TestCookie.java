@@ -8,6 +8,7 @@ package com.mrb.digger;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.io.IOContext;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.MappingJsonFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -236,6 +237,9 @@ public class TestCookie {
             JsonParser jsonParser = jsonFactory.createParser(crackJson2);
             mapper.readValue(crackJson2, CrackVo.class);
             System.out.println(jsonParser.nextToken());
+            
+            IOContext ioContext =new IOContext(jsonFactory._getBufferRecycler(), crackJson2, false);
+            System.out.println(ioContext);
         } catch (IOException ex) {
             Logger.getLogger(TestCookie.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -245,6 +249,8 @@ public class TestCookie {
        
         System.out.println(javaType);
         //JavaType javaType2 = typeFactory.constructType(CrackVo.class);
+        
+        
         
         
     }

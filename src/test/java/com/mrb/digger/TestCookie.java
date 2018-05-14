@@ -6,7 +6,12 @@
 package com.mrb.digger;
 
 
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.MappingJsonFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.google.gson.Gson;
 import com.mrb.digger.utils.ConverUtil;
 import com.mrb.digger.vo.BaseResult;
@@ -15,6 +20,7 @@ import org.junit.Test;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Map;
 import okhttp3.OkHttpClient;
@@ -22,6 +28,8 @@ import okhttp3.Request;
 import okhttp3.Response;
 import org.springframework.util.ResourceUtils;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -176,7 +184,7 @@ public class TestCookie {
         Gson gson = new Gson();
         ObjectMapper mapper = new ObjectMapper();
         String crackJson = "{appeal_time=null, appeal_state=1.0, zone=全区, extend={rank=1.0}, reduce_state=1.0, reason=游戏作弊, start_stmp=1.523024851E9, game_name=地下城与勇士, free_state=1.0, duration=8.64E7, game_id=5.0, type=封号, reduced=0.0, reduce_percent=0.0}";
-        String crackJson2 = "{\"appealState\":1.0,\"zone\":\"全区\",\"extend\":\"{rank\\u003d1.0}\",\"reduceState\":1.0,\"reason\":\"1.0\",\"startStmp\":1.523024851E9,\"gameName\":\"地下城与勇士\",\"freeState\":1.0,\"duration\":1.0,\"gameId\":5.0,\"type\":\"封号\",\"reduced\":0.0,\"reducePercent\":0.0}";
+        String crackJson2 = "{\"appeal_state\":1.0,\"zone\":\"全区\",\"extend\":\"{rank\\u003d1.0}\",\"reduce_state\":1.0,\"reason\":\"1.0\",\"start_stmp\":1.523024851E9,\"game_name\":\"地下城与勇士\",\"free_state\":1.0,\"duration\":1.0,\"game_id\":5.0,\"type\":\"封号\",\"reduced\":0.0,\"reduce_percent\":0.0}";
         long start = System.currentTimeMillis();
         CrackVo vo =null;
          for (int i =0;i<1;i++) {
@@ -193,6 +201,52 @@ public class TestCookie {
         System.out.println(mid - start);
         System.out.println(end - mid);
         System.out.println(vo);
+    }
+    
+    @Test
+    public void testNewString(){
+        String json = "1234567890";
+        char[] jsonArr =json.toCharArray();
+        StringBuilder sb = new StringBuilder();
+        long start = System.currentTimeMillis();
+        for(int i=0;i<100000000;i++){
+            for(int j=0;j<3;j++){
+                sb.append(jsonArr[j]);
+            }
+            sb = new StringBuilder();
+        }
+        long mid = System.currentTimeMillis();
+        for(int i=0;i<100000000;i++){
+            new String(jsonArr,0,3);
+        }
+        long end = System.currentTimeMillis();
+        System.out.println(mid-start);
+        System.out.println(end-mid);
+    }
+    
+    /**
+     * 学习json底层实现原理
+     */
+    @Test
+    public void testObjectMapper(){
+        ObjectMapper mapper = new ObjectMapper();
+        String crackJson2 = "{\"appeal_state\":1.0,\"zone\":\"全区\",\"extend\":\"{rank\\u003d1.0}\",\"reduce_state\":1.0,\"reason\":\"1.0\",\"start_stmp\":1.523024851E9,\"game_name\":\"地下城与勇士\",\"free_state\":1.0,\"duration\":1.0,\"game_id\":5.0,\"type\":\"封号\",\"reduced\":0.0,\"reduce_percent\":0.0}";
+        JsonFactory jsonFactory = new MappingJsonFactory(mapper);
+        try {
+            JsonParser jsonParser = jsonFactory.createParser(crackJson2);
+            mapper.readValue(crackJson2, CrackVo.class);
+            System.out.println(jsonParser.nextToken());
+        } catch (IOException ex) {
+            Logger.getLogger(TestCookie.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        TypeFactory typeFactory = TypeFactory.defaultInstance();
+        JavaType javaType = typeFactory.constructType(CrackVo.class);
+       
+        System.out.println(javaType);
+        //JavaType javaType2 = typeFactory.constructType(CrackVo.class);
+        
+        
     }
     
     

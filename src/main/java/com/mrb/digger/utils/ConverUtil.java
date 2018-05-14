@@ -31,6 +31,8 @@ public class ConverUtil {
     private static final String SET = "set";
 
     private static final String GET = "get";
+    
+    private final Map<Class,Map<String, String>> cacheMap = new HashMap();
 
     /**
      * Map转换为目标对象

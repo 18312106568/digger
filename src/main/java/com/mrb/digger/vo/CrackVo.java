@@ -31,7 +31,7 @@ public class CrackVo implements Serializable{
     @JsonProperty("reduce_state")
     private Double reduceState;
     
-    @JsonProperty("reduce_state")
+    @JsonProperty("reason")
     private String reason;
     
     @JsonProperty("start_stmp")
@@ -43,7 +43,7 @@ public class CrackVo implements Serializable{
     @JsonProperty("free_state")
     private Double freeState;
     
-    @JsonProperty("free_state")
+    @JsonProperty("duration")
     private Double duration;
     
     @JsonProperty("game_id")

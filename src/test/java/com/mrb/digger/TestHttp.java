@@ -10,20 +10,31 @@ import com.mrb.digger.utils.LoginUtil;
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URLEncoder;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManagerFactory;
 import javax.script.Bindings;
 import javax.script.Invocable;
 import javax.script.ScriptContext;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
+import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -361,7 +372,30 @@ public class TestHttp {
     }
     
     @Test
-    public void testDoLogin(){
+    public void testDoLogin() throws IOException, KeyStoreException, CertificateException, NoSuchAlgorithmException {
+        OkHttpClient client = new OkHttpClient();
+        //创建一个Request  
+        final Request request = new Request.Builder()
+                .url("https://www.rongxintong.com:8443/services/YfsWebService?wsdl")
+                .build();
+        client.sslSocketFactory();
         
+        System.out.println("运行http方法");
+        //new call  
+        Call call = client.newCall(request);
+        //请求加入调度  
+//        call.enqueue(new Callback() {
+//            @Override
+//            public void onFailure(Call call, IOException e) {
+//                System.out.println("请求失败");
+//            }
+//
+//            @Override
+//            public void onResponse(Call call, Response response) throws IOException {
+//                System.out.println("请求成功");
+//            }
+//        });
+        Response response = call.execute();
+        System.out.println(response.body().string());
     }
 }

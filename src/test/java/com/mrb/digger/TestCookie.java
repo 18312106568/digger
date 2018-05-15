@@ -8,10 +8,18 @@ package com.mrb.digger;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonTokenId;
 import com.fasterxml.jackson.core.io.IOContext;
+import com.fasterxml.jackson.databind.DeserializationConfig;
+import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.MappingJsonFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.deser.BeanDeserializerBase;
+import com.fasterxml.jackson.databind.deser.BeanDeserializerFactory;
+import com.fasterxml.jackson.databind.deser.DefaultDeserializationContext;
+import com.fasterxml.jackson.databind.deser.SettableBeanProperty;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.google.gson.Gson;
 import com.mrb.digger.utils.ConverUtil;
@@ -23,6 +31,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -250,9 +259,69 @@ public class TestCookie {
         System.out.println(javaType);
         //JavaType javaType2 = typeFactory.constructType(CrackVo.class);
         
-        
-        
-        
+    }
+    
+    @Test
+    public void testJParser()  {
+    	ObjectMapper mapper = new ObjectMapper();
+        String crackJson2 = "{\"appeal_state\":1.0,\"zone\":\"全区\",\"extend\":\"{rank\\u003d1.0}\",\"reduce_state\":1.0,\"reason\":\"1.0\",\"start_stmp\":1.523024851E9,\"game_name\":\"地下城与勇士\",\"free_state\":1.0,\"duration\":1.0,\"game_id\":5.0,\"type\":\"封号\",\"reduced\":0.0,\"reduce_percent\":0.0}";
+        JsonFactory jsonFactory = new MappingJsonFactory(mapper);
+    	DeserializationConfig cfg = mapper.getDeserializationConfig();
+       
+        try {
+        	//获取json解析对象
+            JsonParser jsonParser = jsonFactory.createParser(crackJson2);
+            //获取序列化上下文
+            DeserializationContext ctxt = new DefaultDeserializationContext
+            		.Impl(BeanDeserializerFactory.instance).createInstance(cfg, jsonParser, null);//.createDeserializationContext(jsonParser, cfg)
+            //获取序列化者
+            BeanDeserializerBase deser = (BeanDeserializerBase) ctxt.findRootValueDeserializer(TypeFactory.defaultInstance().constructType(CrackVo.class));
+            //ctxt.prope
+           // Iterator<SettableBeanProperty> properties = deser.properties();
+           // SettableBeanProperty property ;
+//            while( properties.hasNext()) {
+//            	
+//            	property = properties.next();
+//            	System.out.println(property.getName());
+//            }
+            
+            Object bean = CrackVo.class.newInstance();
+            
+                String propName = jsonParser.getCurrentName();
+                do {
+                	jsonParser.nextToken();
+                    // TODO: 06-Jan-2015, tatu: try streamlining call sequences here as well
+                	while(propName==null) {
+                		jsonParser.nextToken();
+                		propName = jsonParser.getCurrentName();
+                	}
+                    SettableBeanProperty prop = deser.findProperty(propName);
+                    if (prop != null) {
+//                        if (!prop.visibleInView(activeView)) {
+//                            p.skipChildren();
+//                            continue;
+//                        }
+                        try {
+                            prop.deserializeAndSet(jsonParser, ctxt, bean);
+                        } catch (Exception e) {
+                           // wrapAndThrow(e, bean, propName, ctxt);
+                        }
+                        continue;
+                    }
+                   // handleUnknownVanilla(jsonParser, ctxt, bean, propName);
+                } while ((propName = jsonParser.nextFieldName()) != null);
+           
+            System.out.println(bean);
+        }catch (IOException ex) {
+            Logger.getLogger(TestCookie.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IllegalAccessException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+    	
     }
     
     

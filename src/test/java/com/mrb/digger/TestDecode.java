@@ -232,7 +232,14 @@ public class TestDecode {
         for(Field field : clazz.getDeclaredFields()){
             System.out.println(field.getType());
         }
+    }
     
+    @Test
+    public void testChar(){
+        System.out.println((char)34);   
+        System.out.println((char)44);
+        System.out.println((char)93);   
+        System.out.println((char)125 );
     }
     
     

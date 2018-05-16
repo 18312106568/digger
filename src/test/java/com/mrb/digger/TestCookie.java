@@ -194,7 +194,7 @@ public class TestCookie {
         Gson gson = new Gson();
         ObjectMapper mapper = new ObjectMapper();
         String crackJson = "{appeal_time=null, appeal_state=1.0, zone=全区, extend={rank=1.0}, reduce_state=1.0, reason=游戏作弊, start_stmp=1.523024851E9, game_name=地下城与勇士, free_state=1.0, duration=8.64E7, game_id=5.0, type=封号, reduced=0.0, reduce_percent=0.0}";
-        String crackJson2 = "{\"appeal_state\":1.0,\"zone\":\"全区\",\"extend\":\"{rank\\u003d1.0}\",\"reduce_state\":1.0,\"reason\":\"1.0\",\"start_stmp\":1.523024851E9,\"game_name\":\"地下城与勇士\",\"free_state\":1.0,\"duration\":1.0,\"game_id\":5.0,\"type\":\"封号\",\"reduced\":0.0,\"reduce_percent\":0.0}";
+        String crackJson2 = "{\"appeal_state\":1.0,\"zone\":\"全区\",\"extend\":\"{rank\\u003d1.0}\",\"reduce_state\":1.0,\"reason\":\"1.0\",\"appeal_time\":1.523024851E9,\"start_stmp\":1.523024851E9,\"game_name\":\"地下城与勇士\",\"free_state\":1.0,\"duration\":1.0,\"game_id\":5.0,\"type\":\"封号\",\"reduced\":0.0,\"reduce_percent\":0.0}";
         long start = System.currentTimeMillis();
         CrackVo vo =null;
          for (int i =0;i<1;i++) {
@@ -240,7 +240,7 @@ public class TestCookie {
     @Test
     public void testObjectMapper(){
         ObjectMapper mapper = new ObjectMapper();
-        String crackJson2 = "{\"appeal_state\":1.0,\"zone\":\"全区\",\"extend\":\"{rank\\u003d1.0}\",\"reduce_state\":1.0,\"reason\":\"1.0\",\"start_stmp\":1.523024851E9,\"game_name\":\"地下城与勇士\",\"free_state\":1.0,\"duration\":1.0,\"game_id\":5.0,\"type\":\"封号\",\"reduced\":0.0,\"reduce_percent\":0.0}";
+        String crackJson2 = "{\"appeal_state\":1.0,\"zone\":\"全区\",\"extend\":\"{rank\\u003d1.0}\",\"reduce_state\":1.0,\"reason\":\"1.0\",\"appeal_time\":1.523024851E9,\"start_stmp\":1.523024851E9,\"game_name\":\"地下城与勇士\",\"free_state\":1.0,\"duration\":1.0,\"game_id\":5.0,\"type\":\"封号\",\"reduced\":0.0,\"reduce_percent\":0.0}";
         JsonFactory jsonFactory = new MappingJsonFactory(mapper);
         try {
             JsonParser jsonParser = jsonFactory.createParser(crackJson2);
@@ -264,7 +264,7 @@ public class TestCookie {
     @Test
     public void testJParser()  {
     	ObjectMapper mapper = new ObjectMapper();
-        String crackJson2 = "{\"appeal_state\":1.0,\"zone\":\"全区\",\"extend\":\"{rank\\u003d1.0}\",\"reduce_state\":1.0,\"reason\":\"1.0\",\"start_stmp\":1.523024851E9,\"game_name\":\"地下城与勇士\",\"free_state\":1.0,\"duration\":1.0,\"game_id\":5.0,\"type\":\"封号\",\"reduced\":0.0,\"reduce_percent\":0.0}";
+        String crackJson2 = "{\"appeal_state\":1.0,\"zone\":\"全区\",\"extend\":\"{rank\\u003d1.0}\",\"reduce_state\":1.0,\"reason\":\"1.0\",\"appeal_time\":1.523024851E9,\"start_stmp\":1.523024851E9,\"game_name\":\"地下城与勇士\",\"free_state\":1.0,\"duration\":1.0,\"game_id\":5.0,\"type\":\"封号\",\"reduced\":0.0,\"reduce_percent\":0.0}";
         JsonFactory jsonFactory = new MappingJsonFactory(mapper);
     	DeserializationConfig cfg = mapper.getDeserializationConfig();
        
@@ -286,28 +286,29 @@ public class TestCookie {
 //            }
             
             Object bean = CrackVo.class.newInstance();
-            
+            	
                 String propName = jsonParser.getCurrentName();
                 do {
                 	jsonParser.nextToken();
                     // TODO: 06-Jan-2015, tatu: try streamlining call sequences here as well
-                	while(propName==null) {
-                		jsonParser.nextToken();
-                		propName = jsonParser.getCurrentName();
-                	}
-                    SettableBeanProperty prop = deser.findProperty(propName);
-                    if (prop != null) {
+//                	while(propName==null) {
+//                		jsonParser.nextToken();
+//                		propName = jsonParser.getCurrentName();
+//                	}
+//                    SettableBeanProperty prop = deser.findProperty(propName);
+//                    if (prop != null) {
 //                        if (!prop.visibleInView(activeView)) {
 //                            p.skipChildren();
 //                            continue;
 //                        }
-                        try {
-                            prop.deserializeAndSet(jsonParser, ctxt, bean);
-                        } catch (Exception e) {
-                           // wrapAndThrow(e, bean, propName, ctxt);
-                        }
-                        continue;
-                    }
+//                        try {
+//                            prop.deserializeAndSet(jsonParser, ctxt, bean);
+//                        } catch (Exception e) {
+//                           // wrapAndThrow(e, bean, propName, ctxt);
+//                        }
+//                        continue;
+//                    }
+                	System.out.print(propName);
                    // handleUnknownVanilla(jsonParser, ctxt, bean, propName);
                 } while ((propName = jsonParser.nextFieldName()) != null);
            

@@ -118,7 +118,7 @@ public class TestCookie {
             Response response = client.newCall(request).execute();
            
            BaseResult baseResult = gson.fromJson(response.body().string(), BaseResult.class);
-           System.out.println("返回结果："+ baseResult.getData());
+           System.out.println("返回结果："+ baseResult);
            // System.out.println(  gson.fromJson(baseResult.getData().get(0).toString()  , CrackVo.class));
         } catch (Exception e) {
             e.printStackTrace();
@@ -197,10 +197,11 @@ public class TestCookie {
         String crackJson2 = "{\"appeal_state\":1.0,\"zone\":\"全区\",\"extend\":\"{rank\\u003d1.0}\",\"reduce_state\":1.0,\"reason\":\"1.0\",\"appeal_time\":1.523024851E9,\"start_stmp\":1.523024851E9,\"game_name\":\"地下城与勇士\",\"free_state\":1.0,\"duration\":1.0,\"game_id\":5.0,\"type\":\"封号\",\"reduced\":0.0,\"reduce_percent\":0.0}";
         long start = System.currentTimeMillis();
         CrackVo vo =null;
-         for (int i =0;i<1;i++) {
+         for (int i =0;i<1000000;i++) {
              vo = ConverUtil.converJsonToClass(CrackVo.class, crackJson);
+          
               //vo = gson.fromJson(crackJson2, CrackVo.class);
-              mapper.readValue(crackJson2, CrackVo.class);
+             // mapper.readValue(crackJson2, CrackVo.class);
         }
         long mid = System.currentTimeMillis();
         for (int i =0;i<1000000;i++) {

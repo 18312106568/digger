@@ -32,6 +32,8 @@ public class ConverUtil {
 
     private static final String GET = "get";
     
+    private static final String SNULL = "null";
+    
     private final Map<Class,Map<String, String>> cacheMap = new HashMap();
 
     /**
@@ -122,7 +124,7 @@ public class ConverUtil {
      * @return
      */
     public static String upperCase(String str) {
-        return str.substring(0, 1).toUpperCase() + str.substring(1);
+        return new StringBuilder(str.substring(0, 1).toUpperCase()).append(str.substring(1)).toString();
     }
 
     /**
@@ -132,7 +134,7 @@ public class ConverUtil {
      * @return
      */
     private static String toSetName(String fieldName) {
-        return SET + upperCase(fieldName);
+        return new StringBuilder(SET).append(upperCase(fieldName)).toString();
     }
 
     /**
@@ -178,33 +180,38 @@ public class ConverUtil {
         crackArr[crackJson.length() - 1] = ',';
         int signNum = 0;
         boolean flag = true;
+        int ptr = 1;
+        int index =0;
         String key = "";
         String value = "";
         for (int i = 1; i < crackArr.length; i++) {
             if (flag) {
                 if (crackArr[i] == '=') {
                     flag = false;
-                    key = sb.toString().trim();
-                    sb = new StringBuilder();
+                    key = new String(crackArr,ptr,index).trim();
+                    ptr += ++index;
+                    index =0;
                 } else {
-                    sb.append(crackArr[i]);
+                    index++;
                     continue;
                 }
             } else {
                 if (crackArr[i] == ',' && signNum == 0) {
                     flag = true;
-                    value = "null".equals(sb.toString().trim()) ? null : sb.toString().trim();
-                    sb = new StringBuilder();
+                    value = new String(crackArr,ptr,index).trim();
+                    value = SNULL.equals(value)?null:value;
+                    ptr += ++index;
+                    index =0;
                 } else if (crackArr[i] == '{') {
-                    sb.append(crackArr[i]);
+                    index++;
                     signNum++;
                     continue;
                 } else if (crackArr[i] == '}') {
-                    sb.append(crackArr[i]);
+                    index++;
                     signNum--;
                     continue;
                 } else {
-                    sb.append(crackArr[i]);
+                    index++;
                     continue;
                 }
                 map.put(key, value);

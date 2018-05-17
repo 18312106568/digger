@@ -9,6 +9,6 @@ package com.mrb.digger.service;
  *
  * @author MRB
  */
-public class GameSafeService {
-    
+public interface GameSafeService {
+    void loanGameSafe();
 }

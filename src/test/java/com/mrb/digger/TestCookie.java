@@ -29,7 +29,11 @@ import org.junit.Test;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.StringReader;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -324,6 +328,25 @@ public class TestCookie {
 			e1.printStackTrace();
 		}
     	
+    }
+    
+    @Test
+    public void testStaticMethod(){
+        try {
+            Class<Integer> clz = Integer.class;
+            Constructor<Integer> constructor = clz.getConstructor(int.class);
+             System.out.println(constructor.getDeclaringClass().getName());
+            Type type = clz.getGenericSuperclass();
+            System.out.println(type);
+            
+            Integer instance = constructor.newInstance(123);
+            Method method = clz.getMethod("parseInt", String.class);
+            System.out.println( method.invoke(null, "13254"));
+            System.out.println(instance);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
     }
     
     

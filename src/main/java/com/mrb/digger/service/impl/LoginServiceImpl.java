@@ -8,6 +8,7 @@ package com.mrb.digger.service.impl;
 import com.mrb.digger.constant.QQConstant;
 import com.mrb.digger.entity.QQLogin;
 import com.mrb.digger.model.PtuiCheckVK;
+import com.mrb.digger.model.QQLoginModel;
 import com.mrb.digger.repository.QQLoginRepository;
 import com.mrb.digger.service.LoginService;
 import com.mrb.digger.utils.ConverUtil;
@@ -23,6 +24,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -94,15 +96,15 @@ public class LoginServiceImpl implements LoginService{
     }
 
     @Override
-    public Boolean tryLogin(String qq, String loginSig, PtuiCheckVK vk) {
+    public QQLoginModel tryLogin(String qq, String loginSig, PtuiCheckVK vk) {
         try {
             String entryptPassword = LoginUtil.getEntryptPassword(vk);
             if (StringUtils.isEmpty(entryptPassword)||vk==null) {
                 logger.info("==========》无法获取密码");
-                return false;
+                return null;
             }
             QQLogin qqLogin = loginRepository.findQQLoginByUin(qq);
-
+            QQLoginModel model = null;
             String verifycode = vk.getVerifyCode().replace("'", "");
             String ptVerifySession = vk.getPVerifySession().replace("'", "");
             Request request = new Request.Builder()
@@ -137,12 +139,16 @@ public class LoginServiceImpl implements LoginService{
                 oCookieMap.put(addEntry.getKey(), addEntry.getValue());
             });
             qqLogin.setCookies(ConverUtil.converToStr(oCookieMap, ";"));
+            qqLogin.setExpireTime(new Date(System.currentTimeMillis()+3600*1000));
             //保存登陆信息
             loginRepository.save(qqLogin);
+              model = new QQLoginModel();
+             BeanUtils.copyProperties(qqLogin, model);
             logger.info("==========》返登陆结果：{}",response.body().string());
+            return model;
         } catch (IOException ex) {
         }
-        return false;
+        return null;
     }
 
     @Override
@@ -181,5 +187,16 @@ public class LoginServiceImpl implements LoginService{
             loginList.add(qqLogin);
         }
         loginRepository.save(loginList);
+    }
+
+    @Override
+    public QQLoginModel findQQLogin(String qq) {
+        QQLogin qqLogin = loginRepository.findQQLoginByUin(qq);
+        QQLoginModel model = null;
+        if(qqLogin!=null){
+            model = new QQLoginModel();
+            BeanUtils.copyProperties(qqLogin, model);
+        }
+        return model;
     }
 }

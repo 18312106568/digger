@@ -5,6 +5,7 @@ import com.mrb.digger.constant.QQConstant;
 import com.mrb.digger.entity.QQLogin;
 import com.mrb.digger.model.PtuiCheckVK;
 import com.mrb.digger.repository.QQLoginRepository;
+import com.mrb.digger.service.GameSafeService;
 import com.mrb.digger.service.LoginService;
 import com.mrb.digger.utils.LoginUtil;
 import java.io.File;
@@ -26,6 +27,9 @@ public class LoanTest extends DiggerApplicationTests {
     @Autowired
     LoginService loginService;
     
+    @Autowired
+    GameSafeService gameSafeService;
+    
     @Test
     public void testQQLogin(){
         System.out.println(String.format(QQConstant.QQ_LOGIN_URL, "3602158526","123abc123abc"));
@@ -46,6 +50,11 @@ public class LoanTest extends DiggerApplicationTests {
         String qq = "3602158526";
         String password ="MTIzYWJjMTIzYWJj";
         loginService.save(qq, password);
+    }
+    
+    @Test
+    public void testLoanGameSafe(){
+        gameSafeService.loanGameSafe("3602158526");
     }
     
     @Test

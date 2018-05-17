@@ -22,6 +22,7 @@ import com.fasterxml.jackson.databind.deser.DefaultDeserializationContext;
 import com.fasterxml.jackson.databind.deser.SettableBeanProperty;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.google.gson.Gson;
+import com.mrb.digger.constant.QQConstant;
 import com.mrb.digger.utils.ConverUtil;
 import com.mrb.digger.vo.BaseResult;
 import com.mrb.digger.vo.CrackVo;
@@ -106,18 +107,17 @@ public class TestCookie {
     public void testCookie(){
         try {
             Request request = new Request.Builder()
-              .url("http://gamesafe.qq.com/api/punish?need_appeal=1&_=3602158526")
+              .url(String.format(QQConstant.TP_GAME_SAFE_URL, "3602158526"))
               .get()
-              .addHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8")
-              .addHeader("Accept-Encoding", "gzip, deflate")
-              .addHeader("Accept-Language", "zh-CN,zh;q=0.9")
-              .addHeader("Cache-Control", "max-age=0")
-              .addHeader("Connection", "keep-alive")
-              .addHeader("Cookie", "eas_sid=E1x5j250c048U224M8L1g259P1; pac_uid=0_59954353aa931;pt2gguin=o3602158526; ts_uid=8285669824; superuin=o3602158526; ptnick_3602158526=e5b08fe7a096e5a4b4; pt_recent_uins=2cac7802d37c33ed9bd43a82d7621efe7a1e4016bdfaf4d03b8b0b5a30dd28a28956ddb277b475487abf0d2792e9e3882a03b29a047b7171;  ied_rf=www.baidu.com/link; ETK=; skey=@fMu56XMEQ; pgv_info=pgvReferrer; _ga=GA1.2.199907167.1524067202; ptdrvs=pf2eciF-kVAFZ6NfZf-wOxb-Mi1r0fkKTrcYILblalA_; RK=eU+qjsz/aP; ptisp=ctc;HttpOnly=; pgv_pvid=3025145152; ptvfsession=1c56931e7ccda4bc08149bd4426438ae7d3744306246196e3183fd7e029c6a87def2d32f93e99665103938619548c25e2d09d860237b8419;Path=/;o_cookie=3602158526; tvfe_boss_uuid=dc72a0023dfc59dd; uin=o3602158526;pgv_pvi=1345968128; ptcz=;confirmuin=0; supertoken=2570945179; ts_refer=aq.qq.com/cn2/unionverify/pc/pc_uv_show;ptui_loginuin=3602158526; superkey=E*u*6FD4YAyTV2QFRccuxH9bxHcmdMQ*Jemi*y22C0Q_;Expires=Thu 01 Jan 1970 00:00:00 GMT;Domain=ptlogin2.qq.com;")
-              .addHeader("Host", "gamesafe.qq.com")
-              .addHeader("If-None-Match", "025239ac14b4fa2b48a435e04d620767cea4af9c")
-              .addHeader("Upgrade-Insecure-Requests", "1") 
-              .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36")      
+              .addHeader(QQConstant.HD_HOST_KEY, QQConstant.HD_HOST_SAFE_VALUE)
+                .addHeader(QQConstant.HD_CONNECTION_KEY, QQConstant.HD_CONNECTION_VALUE)
+                .addHeader(QQConstant.HD_UPGRADE_KEY,QQConstant.HD_UPGRADE_VALUE)
+                .addHeader(QQConstant.HD_AGENT_KEY,QQConstant.HD_AGENT_VALUE)
+                .addHeader(QQConstant.HD_ACCEPT_KEY,QQConstant.HD_ACCEPT_VALUE)
+                .addHeader(QQConstant.HD_REFER_KEY, QQConstant.HD_REFER_VALUE)
+                .addHeader(QQConstant.HD_ENCODE_KEY, QQConstant.HD_ENCODE_VALUE)
+                .addHeader(QQConstant.HD_LANG_KEY, QQConstant.HD_LAN_VALUE)
+                .addHeader(QQConstant.HD_COOKIE_KEY," eas_sid=E1x5j250c048U224M8L1g259P1; pac_uid=0_59954353aa931;pt2gguin=o3602158526; ts_uid=8285669824; superuin=o3602158526; ptnick_3602158526=e5b08fe7a096e5a4b4; pt_recent_uins=4028c4dfe900004480c6a6572d893eb2e0b7774da8d4e60e22513e68cf8eb2beb1fe5e84b3a484bf3cc66c1a5be97644a465f6b08d9cd467;  ied_rf=www.baidu.com/link; ETK=; skey=@EhpQQuyps; pgv_info=pgvReferrer; _ga=GA1.2.199907167.1524067202; ptdrvs=7CA8FZikVBxbLZ6zYbkhkMB4kL6e81fTpRTzgJlCVg4_; RK=eU+qjsz/aP; ptisp=ctc;HttpOnly=; pgv_pvid=3025145152; ptvfsession=a1e4e51606239d7a65d28f2ea468aa6358f3d390645414cfa2f3776a95bd0faa2b681d7dd894d1f3c25d3b409b840f316699b1bb2d3ce014;Path=/;o_cookie=3602158526; tvfe_boss_uuid=dc72a0023dfc59dd; uin=o3602158526;pgv_pvi=1345968128; ptcz=;confirmuin=0; supertoken=3411413177; ts_refer=aq.qq.com/cn2/unionverify/pc/pc_uv_show;ptui_loginuin=3602158526; superkey=gnVOyINMATRCKw*PSOKJt7*i-8XrUfKdHrr8aICBG*k_;Expires=Thu 01 Jan 1970 00:00:00 GMT;Domain=ptlogin2.qq.com;" )
               .build();
             Response response = client.newCall(request).execute();
            

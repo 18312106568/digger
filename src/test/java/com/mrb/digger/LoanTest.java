@@ -1,6 +1,5 @@
 package com.mrb.digger;
 
-
 import com.mrb.digger.constant.QQConstant;
 import com.mrb.digger.entity.QQLogin;
 import com.mrb.digger.model.PtuiCheckVK;
@@ -17,55 +16,110 @@ import java.util.regex.Pattern;
 import org.junit.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 
 public class LoanTest extends DiggerApplicationTests {
-    
+
     @Autowired
     QQLoginRepository loginRepository;
-    
+
     @Autowired
     LoginService loginService;
-    
+
+    @Autowired
+    StringRedisTemplate stringRedisTemplate;
+
     @Test
-    public void testQQLogin(){
-        System.out.println(String.format(QQConstant.QQ_LOGIN_URL, "3602158526","123abc123abc"));
-        System.out.println(loginRepository.findQQLoginByUin("3602158526"));
+    public void testRedis() {
+        try {
+            List<String> list = new ArrayList<>();
+            list.add("a");
+            list.add("b");
+            list.add("v");
+            stringRedisTemplate.opsForValue().set("abc", "测试");
+           // stringRedisTemplate.opsForList().leftPushAll("qq", list); // 向redis存入List
+            stringRedisTemplate.opsForList().range("qq", 0,6).forEach(value -> {
+                System.out.println(value);
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     
     @Test
-    public void testLogin(){
+    public void testRedisThread(){
+        long start = System.currentTimeMillis();
+        for(int i=0;i<1000;i++){
+            final int num = i;
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    synchronized(stringRedisTemplate){
+                        System.out.println("存储数据："+num);
+                        stringRedisTemplate.opsForValue().set("abc", "test"+num);
+                    }
+                }
+            }).start();
+        }
+        for(int i=0;i<1000;i++){
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    synchronized(stringRedisTemplate){
+                        System.out.println("获取数据："+stringRedisTemplate.opsForValue().get("abc"));
+                    }
+                }
+            }).start();
+        }
+        while(Thread.activeCount()>5){
+            //System.out.println("还在运行中的线程数"+Thread.activeCount());
+        }
+        long end = System.currentTimeMillis();
+        System.out.println("redis 消耗时间："+(end-start));
+    }
+    
+   
+
+    @Test
+    public void testQQLogin() {
+        System.out.println(String.format(QQConstant.QQ_LOGIN_URL, "3602158526", "123abc123abc"));
+        System.out.println(loginRepository.findQQLoginByUin("3602158526"));
+    }
+
+    @Test
+    public void testLogin() {
         String qq = "3602158526";
-        String loginSig =  LoginUtil.getLoginSig();
-        PtuiCheckVK vk = loginService.isSafeLogin(qq,loginSig);
+        String loginSig = LoginUtil.getLoginSig();
+        PtuiCheckVK vk = loginService.isSafeLogin(qq, loginSig);
         System.out.println(vk);
         loginService.tryLogin(qq, loginSig, vk);
     }
-    
+
     @Test
-    public void testSaveQQLogin(){
+    public void testSaveQQLogin() {
         String qq = "3602158526";
-        String password ="MTIzYWJjMTIzYWJj";
+        String password = "MTIzYWJjMTIzYWJj";
         loginService.save(qq, password);
     }
-    
+
     @Test
-    public void testBatchSave(){
+    public void testBatchSave() {
         String filePath = "D:\\tmp\\TP\\QQ.txt";
         File file = new File(filePath);
         loginService.batchSave(LoginUtil.getQQLoginMap(file));
     }
-    
+
     @Test
-    public void listQQLogin(){
+    public void listQQLogin() {
         List<String> uinList = new ArrayList<>();
         uinList.add("3250537630");
         uinList.add("3602158526");
         List<QQLogin> loginList = loginRepository.listAllByUins(uinList);
         System.out.println(loginList.size());
     }
-    
+
     @Test
-    public void testFile() throws FileNotFoundException, IOException{
+    public void testFile() throws FileNotFoundException, IOException {
         Pattern pattern = Pattern.compile("[0-9]{9,10}-");
         final String PATTERN = "[0-9]{9,10}\\-[a-zA-Z0-9\\+\\/\\=]*";
         String filePath = "D:\\tmp\\TP\\QQ.txt";
@@ -75,29 +129,29 @@ public class LoanTest extends DiggerApplicationTests {
         char[] buf = new char[2048];
         int count = 0;
         int sum = 0;
-        while ((sum=reader.read(buf))!=-1) {
+        while ((sum = reader.read(buf)) != -1) {
             count += sum;
             sb.append(new String(buf));
-             buf = new char[2048];
+            buf = new char[2048];
         }
         String uins = sb.toString().trim();
         String[] uinArr = uins.split("\r\n");
-        for(String uin : uinArr){
-             //System.out.println(uin);
+        for (String uin : uinArr) {
+            //System.out.println(uin);
             if (pattern.matcher(uin).matches()) {
                 System.out.println(uin);
             }
-            if(Pattern.matches(PATTERN, uin)){
+            if (Pattern.matches(PATTERN, uin)) {
                 System.out.println(uin);
             }
         }
 //        System.out.println(sb.toString());
 //        System.out.println(sb.toString().replaceAll("\r\n","").length());
 //        System.out.println(count);
-        
+
     }
-    
-/*
+
+    /*
     @PersistenceContext
     EntityManager em;
     
@@ -163,5 +217,5 @@ public class LoanTest extends DiggerApplicationTests {
         }
         
     }
-*/
+     */
 }

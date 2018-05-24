@@ -8,18 +8,15 @@ package com.mrb.digger;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonTokenId;
 import com.fasterxml.jackson.core.io.IOContext;
 import com.fasterxml.jackson.databind.DeserializationConfig;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.MappingJsonFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.deser.BeanDeserializerBase;
 import com.fasterxml.jackson.databind.deser.BeanDeserializerFactory;
 import com.fasterxml.jackson.databind.deser.DefaultDeserializationContext;
-import com.fasterxml.jackson.databind.deser.SettableBeanProperty;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.google.gson.Gson;
 import com.mrb.digger.utils.ConverUtil;
@@ -42,6 +39,10 @@ import okhttp3.Request;
 import okhttp3.Response;
 import org.springframework.util.ResourceUtils;
 import java.util.Arrays;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -207,6 +208,7 @@ public class TestCookie {
               //vo = gson.fromJson(crackJson2, CrackVo.class);
              // mapper.readValue(crackJson2, CrackVo.class);
         }
+        
         long mid = System.currentTimeMillis();
         for (int i =0;i<1000000;i++) {
              //vo = ConverUtil.converJsonToClass(CrackVo.class, crackJson);
@@ -345,6 +347,24 @@ public class TestCookie {
             System.out.println(instance);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+        
+    }
+    
+    static BlockingQueue blockingQueue=new ArrayBlockingQueue<>(1);  
+    
+    @Test
+    public void testThreadPool(){
+        ThreadPoolExecutor executor = new ThreadPoolExecutor(5, 100, 1, TimeUnit.DAYS, blockingQueue);
+        for(int i =0;i<100;i++){
+            final int num = i;
+            Runnable runnable = new Runnable() {
+                @Override
+                public void run() {
+                   System.out.println(String.format("正在执行线程：%d", num));
+                }
+            };
+            executor.submit(runnable);
         }
         
     }

@@ -4,6 +4,7 @@ import com.mrb.digger.constant.QQConstant;
 import com.mrb.digger.entity.QQLogin;
 import com.mrb.digger.model.PtuiCheckVK;
 import com.mrb.digger.repository.QQLoginRepository;
+import com.mrb.digger.service.GameSafeService;
 import com.mrb.digger.service.LoginService;
 import com.mrb.digger.utils.LoginUtil;
 import java.io.File;
@@ -45,6 +46,9 @@ public class LoanTest extends DiggerApplicationTests {
             e.printStackTrace();
         }
     }
+    
+    @Autowired
+    GameSafeService gameSafeService;
     
     @Test
     public void testRedisThread(){
@@ -103,7 +107,16 @@ public class LoanTest extends DiggerApplicationTests {
     }
 
     @Test
+<<<<<<< HEAD
     public void testBatchSave() {
+=======
+    public void testLoanGameSafe(){
+        gameSafeService.loanGameSafe("3602158526");
+    }
+    
+    @Test
+    public void testBatchSave(){
+>>>>>>> 02915f26a0332aa0c88afa10a727c5ba06ced236
         String filePath = "D:\\tmp\\TP\\QQ.txt";
         File file = new File(filePath);
         loginService.batchSave(LoginUtil.getQQLoginMap(file));

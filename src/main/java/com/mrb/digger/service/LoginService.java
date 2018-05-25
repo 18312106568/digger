@@ -5,7 +5,9 @@
  */
 package com.mrb.digger.service;
 
+import com.mrb.digger.entity.QQLogin;
 import com.mrb.digger.model.PtuiCheckVK;
+import com.mrb.digger.model.QQLoginModel;
 import java.util.Map;
 
 /**
@@ -16,9 +18,11 @@ public interface LoginService {
     
     PtuiCheckVK isSafeLogin(String qq,String loginSig);
     
-    Boolean tryLogin(String qq,String loginSig ,PtuiCheckVK vK);
+    QQLoginModel tryLogin(String qq,String loginSig ,PtuiCheckVK vK);
     
     void save(String uin,String password);
     
     void batchSave(Map<String,String> map);
+    
+    QQLoginModel findQQLogin(String qqLogin);
 }

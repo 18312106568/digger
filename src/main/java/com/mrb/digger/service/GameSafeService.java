@@ -5,10 +5,12 @@
  */
 package com.mrb.digger.service;
 
+import com.mrb.digger.vo.CrackVo;
+
 /**
  *
  * @author MRB
  */
 public interface GameSafeService {
-    void loanGameSafe();
+    CrackVo loanGameSafe(String uin);
 }

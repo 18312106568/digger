@@ -27,18 +27,16 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.springframework.util.ResourceUtils;
 import java.util.Arrays;
+import java.util.Hashtable;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -356,16 +354,44 @@ public class TestCookie {
     @Test
     public void testThreadPool(){
         ThreadPoolExecutor executor = new ThreadPoolExecutor(5, 100, 1, TimeUnit.DAYS, blockingQueue);
-        for(int i =0;i<100;i++){
-            final int num = i;
-            Runnable runnable = new Runnable() {
-                @Override
-                public void run() {
-                   System.out.println(String.format("正在执行线程：%d", num));
+       // Map<Integer,String> map = new HashMap<>();
+        Map<Integer,String> map = new Hashtable<>();
+        try {           
+            int LOOP = 500;
+            for(int i =0;i<LOOP;i++){
+                final int num = i;
+                Runnable runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                       Thread t = Thread.currentThread();
+                       t.setName("线程："+num);
+                       map.put(0,t.getName());
+                       System.out.println(String.format("当前进程数%d/%d,正在执行%s",
+                               executor.getPoolSize(),executor.getMaximumPoolSize(),t.getName()));
+                    }
+                };
+                if(executor.getActiveCount()<executor.getMaximumPoolSize()){
+                    executor.execute(runnable);
                 }
-            };
-            executor.submit(runnable);
+            }
+            for(int i =0;i<LOOP;i++){
+                Runnable runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                       System.out.println(String.format("当前进程数%d/%d,获取当前map数据：%s",
+                               executor.getActiveCount(),executor.getMaximumPoolSize(),map.get(0)));
+                    }
+                };
+                if(executor.getActiveCount()<executor.getMaximumPoolSize()){
+                    executor.submit(runnable);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(Thread.activeCount());
+            e.printStackTrace();
         }
+       
+        
         
     }
     

@@ -3,6 +3,7 @@ package com.mrb.digger;
 import com.mrb.digger.constant.QQConstant;
 import com.mrb.digger.entity.QQLogin;
 import com.mrb.digger.model.PtuiCheckVK;
+import com.mrb.digger.model.QQLoginModel;
 import com.mrb.digger.repository.QQLoginRepository;
 import com.mrb.digger.service.GameSafeService;
 import com.mrb.digger.service.LoginService;
@@ -46,6 +47,9 @@ public class LoanTest extends DiggerApplicationTests {
             e.printStackTrace();
         }
     }
+    
+    
+    
     
     @Autowired
     GameSafeService gameSafeService;
@@ -91,12 +95,16 @@ public class LoanTest extends DiggerApplicationTests {
     }
 
     @Test
-    public void testLogin() {
-        String qq = "3602158526";
-        String loginSig = LoginUtil.getLoginSig();
-        PtuiCheckVK vk = loginService.isSafeLogin(qq, loginSig);
-        System.out.println(vk);
-        loginService.tryLogin(qq, loginSig, vk);
+    public void testLogin() throws InterruptedException {
+        List<QQLoginModel> modelList = loginService.findAll();
+        for(QQLoginModel model : modelList){
+            String qq = model.getUin();
+            String loginSig = LoginUtil.getLoginSig();
+            PtuiCheckVK vk = loginService.isSafeLogin(qq, loginSig);
+            System.out.println(vk);
+            loginService.tryLogin(qq, loginSig, vk);
+            Thread.sleep(1000);
+        }
     }
 
     @Test
@@ -107,16 +115,12 @@ public class LoanTest extends DiggerApplicationTests {
     }
 
     @Test
-<<<<<<< HEAD
-    public void testBatchSave() {
-=======
     public void testLoanGameSafe(){
         gameSafeService.loanGameSafe("3602158526");
     }
     
     @Test
     public void testBatchSave(){
->>>>>>> 02915f26a0332aa0c88afa10a727c5ba06ced236
         String filePath = "D:\\tmp\\TP\\QQ.txt";
         File file = new File(filePath);
         loginService.batchSave(LoginUtil.getQQLoginMap(file));

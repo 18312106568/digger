@@ -8,18 +8,15 @@ package com.mrb.digger;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonTokenId;
 import com.fasterxml.jackson.core.io.IOContext;
 import com.fasterxml.jackson.databind.DeserializationConfig;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.MappingJsonFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.deser.BeanDeserializerBase;
 import com.fasterxml.jackson.databind.deser.BeanDeserializerFactory;
 import com.fasterxml.jackson.databind.deser.DefaultDeserializationContext;
-import com.fasterxml.jackson.databind.deser.SettableBeanProperty;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.google.gson.Gson;
 import com.mrb.digger.constant.QQConstant;
@@ -31,18 +28,20 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.springframework.util.ResourceUtils;
 import java.util.Arrays;
+import java.util.Hashtable;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -207,6 +206,7 @@ public class TestCookie {
               //vo = gson.fromJson(crackJson2, CrackVo.class);
              // mapper.readValue(crackJson2, CrackVo.class);
         }
+        
         long mid = System.currentTimeMillis();
         for (int i =0;i<1000000;i++) {
              //vo = ConverUtil.converJsonToClass(CrackVo.class, crackJson);
@@ -346,6 +346,52 @@ public class TestCookie {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        
+    }
+    
+    static BlockingQueue blockingQueue=new ArrayBlockingQueue<>(1);  
+    
+    @Test
+    public void testThreadPool(){
+        ThreadPoolExecutor executor = new ThreadPoolExecutor(5, 100, 1, TimeUnit.DAYS, blockingQueue);
+       // Map<Integer,String> map = new HashMap<>();
+        Map<Integer,String> map = new Hashtable<>();
+        try {           
+            int LOOP = 500;
+            for(int i =0;i<LOOP;i++){
+                final int num = i;
+                Runnable runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                       Thread t = Thread.currentThread();
+                       t.setName("线程："+num);
+                       map.put(0,t.getName());
+                       System.out.println(String.format("当前进程数%d/%d,正在执行%s",
+                               executor.getPoolSize(),executor.getMaximumPoolSize(),t.getName()));
+                    }
+                };
+                if(executor.getActiveCount()<executor.getMaximumPoolSize()){
+                    executor.execute(runnable);
+                }
+            }
+            for(int i =0;i<LOOP;i++){
+                Runnable runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                       System.out.println(String.format("当前进程数%d/%d,获取当前map数据：%s",
+                               executor.getActiveCount(),executor.getMaximumPoolSize(),map.get(0)));
+                    }
+                };
+                if(executor.getActiveCount()<executor.getMaximumPoolSize()){
+                    executor.submit(runnable);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(Thread.activeCount());
+            e.printStackTrace();
+        }
+       
+        
         
     }
     

@@ -1,6 +1,7 @@
 -------------------------------------------------------------------------------
 Test set: com.mrb.digger.LoanTest
 -------------------------------------------------------------------------------
+<<<<<<< HEAD
 Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 5.792 sec <<< FAILURE! - in com.mrb.digger.LoanTest
 testTransaction(com.mrb.digger.LoanTest)  Time elapsed: 0.154 sec  <<< ERROR!
 org.springframework.dao.DataIntegrityViolationException: could not execute statement; SQL [n/a]; constraint [uin_index]; nested exception is org.hibernate.exception.ConstraintViolationException: could not execute statement
@@ -57,3 +58,6 @@ org.springframework.dao.DataIntegrityViolationException: could not execute state
 	at com.mrb.digger.service.impl.LoginServiceImpl$$EnhancerBySpringCGLIB$$98d31b60.doubleTransaction(<generated>)
 	at com.mrb.digger.LoanTest.testTransaction(LoanTest.java:111)
 
+=======
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 28.734 sec - in com.mrb.digger.LoanTest
+>>>>>>> 3ef40c13aae5656805deed11932d394b41d8a762

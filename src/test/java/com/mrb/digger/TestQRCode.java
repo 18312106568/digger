@@ -70,5 +70,18 @@ public class TestQRCode {
        
     }
     
+    @Test
+    public void testInteger(){
+        Integer i1 = 1234;
+        Integer i2 = 1234;
+        System.out.println(i1==i2);
+        
+        
+        String s1 = "1234";
+        String s2 = "1234";
+        System.out.println(s1==s2);
+    
+    }
+    
     
 }

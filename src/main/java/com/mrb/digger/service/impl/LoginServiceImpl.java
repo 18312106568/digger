@@ -199,4 +199,16 @@ public class LoginServiceImpl implements LoginService{
         }
         return model;
     }
+
+    @Override
+    public List<QQLoginModel> findAll() {
+        List<QQLogin> qqLoginList = loginRepository.findAll();
+        List<QQLoginModel> modelList = new ArrayList<>();
+        for (QQLogin login : qqLoginList) {
+            QQLoginModel model = new QQLoginModel();
+            BeanUtils.copyProperties(login, model);
+            modelList.add(model);
+        }
+        return modelList;
+    }
 }

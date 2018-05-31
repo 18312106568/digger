@@ -8,6 +8,7 @@ package com.mrb.digger.service;
 import com.mrb.digger.entity.QQLogin;
 import com.mrb.digger.model.PtuiCheckVK;
 import com.mrb.digger.model.QQLoginModel;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -25,4 +26,6 @@ public interface LoginService {
     void batchSave(Map<String,String> map);
     
     QQLoginModel findQQLogin(String qqLogin);
+    
+    List<QQLoginModel>  findAll();
 }

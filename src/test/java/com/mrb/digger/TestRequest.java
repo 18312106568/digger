@@ -31,16 +31,18 @@ import org.junit.Test;
 public class TestRequest {
 
     static BlockingQueue blockingQueue = new ArrayBlockingQueue<>(1);
-
+    static ThreadPoolExecutor executor = new ThreadPoolExecutor(5, 100, 0, TimeUnit.NANOSECONDS, blockingQueue);
+    
     @Test
     public void testThreadPoolExecutor() {
-        ThreadPoolExecutor executor = new ThreadPoolExecutor(5, 100, 1, TimeUnit.NANOSECONDS, blockingQueue);
+        
         Map<Integer, String> map = new Hashtable<>();
         try {
-            int LOOP = 150;
-            for (int i = 0; i < LOOP; i++) {
+            int LOOP = 1000;
+            int index = 1;
+            while (index<LOOP) {
                 OkHttpClient client = new OkHttpClient();
-                final int key =  i;
+                final int key =  index;
                 Runnable runable = new Runnable() {
                     @Override
                     public void run() {
@@ -61,14 +63,15 @@ public class TestRequest {
                         }
                     }
                 };
-                synchronized(executor){
-                    if(executor.getActiveCount()<executor.getMaximumPoolSize()||executor.prestartCoreThread()){
-                        executor.submit(runable);
-                    }
+                if(executor.getActiveCount()<executor.getMaximumPoolSize()||executor.prestartCoreThread()){
+                    executor.submit(runable);
+                    index++;
+                }else{
+                    System.out.println("当前线程数"+executor.getActiveCount());
+                    Thread.sleep(1000);
                 }
                 
             }
-            Thread.sleep(5000);
         } catch (Exception e) {
             log.error("线程池溢出：{}",e.toString());
             System.out.println(Thread.activeCount());

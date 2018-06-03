@@ -5,9 +5,14 @@
  */
 package com.mrb.digger;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
@@ -31,16 +36,18 @@ import org.junit.Test;
 public class TestRequest {
 
     static BlockingQueue blockingQueue = new ArrayBlockingQueue<>(1);
-
+    static ThreadPoolExecutor executor = new ThreadPoolExecutor(5, 100, 0, TimeUnit.NANOSECONDS, blockingQueue);
+    
     @Test
     public void testThreadPoolExecutor() {
-        ThreadPoolExecutor executor = new ThreadPoolExecutor(5, 100, 1, TimeUnit.NANOSECONDS, blockingQueue);
+        
         Map<Integer, String> map = new Hashtable<>();
         try {
-            int LOOP = 100;
-            for (int i = 0; i < LOOP; i++) {
+            int LOOP = 1000;
+            int index = 1;
+            while (index<LOOP) {
                 OkHttpClient client = new OkHttpClient();
-                final int key = i;
+                final int key =  index;
                 Runnable runable = new Runnable() {
                     @Override
                     public void run() {
@@ -61,11 +68,13 @@ public class TestRequest {
                         }
                     }
                 };
-                synchronized (executor) {
-                    if (executor.getActiveCount() < executor.getMaximumPoolSize() || executor.prestartCoreThread()) {
-                        executor.submit(runable);
-                    }
-                    System.out.println(executor.getActiveCount());
+               
+                if(executor.getActiveCount()<executor.getMaximumPoolSize()||executor.prestartCoreThread()){
+                    executor.submit(runable);
+                    index++;
+                }else{
+                    System.out.println("当前线程数"+executor.getActiveCount());
+                    Thread.sleep(1000);
                 }
             }
             long now = System.currentTimeMillis();
@@ -74,8 +83,6 @@ public class TestRequest {
                 System.out.println(now + "-" + end + ":" + executor.getActiveCount());
                 Thread.sleep(500);
             }
-
-            // Thread.sleep(5000);
         } catch (Exception e) {
             log.error("线程池溢出：{}", e.toString());
             //System.out.println(Thread.activeCount());
@@ -135,5 +142,39 @@ public class TestRequest {
             }).start();
         }
 
+    }
+    
+    @Test
+    public void testGsonThread() throws InterruptedException{
+        final ObjectMapper mapper = new ObjectMapper();
+        final Gson gson = new Gson();
+        final Set<String> jsonSet = new HashSet();
+        for(int i=0;i<100;i++){           
+            JsonModel jsonModel = new JsonModel();
+            jsonModel.setId(i);
+            new Thread(new Runnable(){
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(5);
+                    } catch (InterruptedException ex) {
+                        log.error("Thread interrupt error");
+                    }
+                   String jsonStr ="";
+                    try {
+                        jsonStr = mapper.writeValueAsString(jsonModel); //gson.toJson(jsonModel);
+                    } catch (JsonProcessingException ex) {
+                        Logger.getLogger(TestRequest.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                   if(jsonSet.contains(jsonStr)){
+                       System.out.println(jsonStr);
+                   }
+                   jsonSet.add(jsonStr);
+                   //System.out.println(gson.toJson(jsonModel));
+                }
+            }).start();
+        }
+        Thread.sleep(1500);
+        System.out.println(jsonSet.size());
     }
 }

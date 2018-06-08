@@ -20,10 +20,8 @@ public class HelloSender {
     @Autowired
     private AmqpTemplate rabbitTemplate;
 
-    public void send(int num) {
-        String context = "hello " + new Date()+":"+num;
-        System.out.println("Sender : " + context);
-        this.rabbitTemplate.convertAndSend("hello", context);
+    public void send(String num) {
+        this.rabbitTemplate.convertAndSend("hello", num);
     }
 
 }

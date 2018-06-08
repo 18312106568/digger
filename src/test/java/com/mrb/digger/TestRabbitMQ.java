@@ -25,11 +25,9 @@ public class TestRabbitMQ extends DiggerApplicationTests {
             new Thread(new Runnable(){
                 @Override
                 public void run() {
-                    helloSender.send(num);
+                    helloSender.send(num+"");
                 }
             }).start();
-            
-           
         }
         Thread.sleep(1000);
     }

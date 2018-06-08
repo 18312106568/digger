@@ -5,8 +5,11 @@
  */
 package com.mrb.digger.jms;
 
+import com.mrb.digger.entity.TestEntity;
+import com.mrb.digger.service.TestService;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -17,9 +20,13 @@ import org.springframework.stereotype.Component;
 @RabbitListener(queues = "hello")
 public class HelloReceiver {
 
+    @Autowired
+    TestService testService;
+    
     @RabbitHandler
     public void process(String hello) {
-        System.out.println("Receiver  : " + hello);
+        System.out.println("receiver :"+hello);
+        testService.testTestEntity(Integer.parseInt(hello));
     }
 
 }
